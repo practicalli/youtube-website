@@ -12,3 +12,15 @@
   "I don't do a whole lot ... yet."
   [& args]
   (println "Hello, World!"))
+
+;; Routing
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defroutes webapp
+  (GET "/"               [] (response "home-page"))
+
+  (GET "/playlist/:name" [] (response "playlist"))
+
+  (not-found
+    "<h1>Page not found, I am very sorry.</h1>"))
+

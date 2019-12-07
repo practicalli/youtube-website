@@ -8,10 +8,6 @@
             [clojure.data.json  :as json]))
 
 
-(defn -main
-  "I don't do a whole lot ... yet."
-  [& args]
-  (println "Hello, World!"))
 
 ;; Routing
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -24,3 +20,28 @@
   (not-found
     "<h1>Page not found, I am very sorry.</h1>"))
 
+;; System
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(defn jetty-shutdown-timed
+  "Shutdown server after specific time,
+  allows time for threads to complete.
+  Stops taking new requests immediately by
+  closing the HTTP listener and freeing the port."
+  [server]
+  (.setStopTimeout server 1000)
+  (.setStopAtShutdown server true))
+
+
+;; Define a single instance of the embedded Jetty server
+(defonce server
+  (adapter/run-jetty
+    #'webapp
+    {:port         8000
+     :join?        false
+     :configurator jetty-shutdown-timed}))
+
+;; In the REPL
+;; (.start server) ;; starts the Jetty embedded server
+;; (.stop server)  ;; stops the Jetty embedded server

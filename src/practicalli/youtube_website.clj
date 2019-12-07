@@ -76,12 +76,28 @@
 #_(playlist-items practicalli-playlist-study-group)
 
 
+;; Handler functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn playlist
+  "Display a playlist as defined by the parameter list"
+  [request]
+  ;; hard coded to study-group playlist for now
+  (response
+    (str (playlist-items practicalli-playlist-study-group))))
+
+
+;; test the handler
+#_(playlist {})
+
+
 ;; Routing
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defroutes webapp
   (GET "/"               [] (response "home-page"))
 
+  (GET "/study-group"    [] playlist)
   (GET "/playlist/:name" [] (response "playlist"))
 
   (not-found
